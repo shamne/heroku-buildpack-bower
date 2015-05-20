@@ -5,16 +5,16 @@ CACHE_DIR=$2
 
 cd $BUILD_DIR
 
-# # Restore bower_components from cache if it exists
-# if test -d $CACHE_DIR/bower_components; then
-#   status "Restoring bower_components directory from cache"
-#   cp -r $CACHE_DIR/bower_components $BUILD_DIR/
-# fi
+# Restore bower_components from cache if it exists
+if test -d $CACHE_DIR/bower_components; then
+  echo "Restoring bower_components directory from cache ..."
+  cp -r $CACHE_DIR/bower_components $BUILD_DIR/vendor/assets/
+fi
 
-PATH="$BUILD_DIR/vendor/node/bin:$BUILD_DIR/bin:$BUILD_DIR/node_modules/.bin:$PATH" bower install --config.storage.packages=$CACHE_DIR/vendor/bower/packages --config.storage.registry=$CACHE_DIR/vendor/bower/registry --config.tmp=$CACHE_DIR/vendor/bower/tmp
+PATH="$BUILD_DIR/vendor/node/bin:$BUILD_DIR/bin:$BUILD_DIR/node_modules/.bin:$PATH" bower install --config.storage.packages=vendor/bower/packages --config.storage.registry=vendor/bower/registry --config.tmp=vendor/bower/tmp
 
-# # If app has a bower_components directory, cache it.
-# if test -d $build_dir/bower_components; then
-#   status "Caching bower_components directory for future builds"
-#   cp -r $build_dir/bower_components $cache_dir/
-# fi
+# If app has a bower_components directory, cache it.
+if test -d $BUILD_DIR/vendor/assets/bower_components; then
+  echo "Caching bower_components directory for future builds ..."
+  cp -r $BUILD_DIR/vendor/assets/bower_components $CACHE_DIR/
+fi
